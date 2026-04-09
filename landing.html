@@ -704,13 +704,175 @@
       .stat { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); }
       .stat:last-child { border-bottom: none; }
     }
+
+    /* ── CUSTOM CURSOR ───────────────────────────────────── */
+    .cursor {
+      position: fixed; pointer-events: none; z-index: 9999;
+      mix-blend-mode: difference;
+    }
+    .cursor__dot {
+      width: 8px; height: 8px;
+      background: #fff;
+      border-radius: 50%;
+      position: fixed;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease;
+      pointer-events: none; z-index: 9999;
+    }
+    .cursor__ring {
+      width: 36px; height: 36px;
+      border: 1.5px solid rgba(255,255,255,0.6);
+      border-radius: 50%;
+      position: fixed;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
+      pointer-events: none; z-index: 9998;
+    }
+    .cursor__ring.hovering {
+      width: 60px; height: 60px;
+      border-color: var(--saffron);
+      opacity: 0.8;
+    }
+    @media (pointer: coarse) {
+      .cursor__dot, .cursor__ring { display: none; }
+    }
+
+    /* ── SCROLL REVEAL ───────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s cubic-bezier(.16,1,.3,1),
+                  transform 0.7s cubic-bezier(.16,1,.3,1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-50px);
+      transition: opacity 0.8s cubic-bezier(.16,1,.3,1),
+                  transform 0.8s cubic-bezier(.16,1,.3,1);
+    }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(50px);
+      transition: opacity 0.8s cubic-bezier(.16,1,.3,1),
+                  transform 0.8s cubic-bezier(.16,1,.3,1);
+    }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+    /* stagger children */
+    .stagger > * {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s cubic-bezier(.16,1,.3,1),
+                  transform 0.6s cubic-bezier(.16,1,.3,1);
+    }
+    .stagger.visible > *:nth-child(1) { opacity:1; transform:none; transition-delay: 0.05s; }
+    .stagger.visible > *:nth-child(2) { opacity:1; transform:none; transition-delay: 0.15s; }
+    .stagger.visible > *:nth-child(3) { opacity:1; transform:none; transition-delay: 0.25s; }
+    .stagger.visible > *:nth-child(4) { opacity:1; transform:none; transition-delay: 0.35s; }
+    .stagger.visible > *:nth-child(5) { opacity:1; transform:none; transition-delay: 0.45s; }
+    .stagger.visible > *:nth-child(6) { opacity:1; transform:none; transition-delay: 0.55s; }
+    .stagger.visible > *:nth-child(7) { opacity:1; transform:none; transition-delay: 0.65s; }
+    .stagger.visible > *:nth-child(8) { opacity:1; transform:none; transition-delay: 0.75s; }
+
+    /* ── NAV SCROLLED STATE ──────────────────────────────── */
+    .nav.scrolled {
+      background: rgba(10,10,10,0.92);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.5);
+    }
+
+    /* ── 3D TILT CARDS ───────────────────────────────────── */
+    .tilt {
+      transform-style: preserve-3d;
+      transition: transform 0.1s ease;
+    }
+    .tilt .tilt-inner {
+      transform: translateZ(20px);
+    }
+
+    /* ── TYPED CURSOR ────────────────────────────────────── */
+    .typed-cursor {
+      display: inline-block;
+      width: 3px;
+      background: var(--saffron);
+      margin-left: 3px;
+      animation: blink 0.9s step-end infinite;
+      vertical-align: middle;
+      height: 0.8em;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
+    /* ── MAGNETIC BUTTONS ────────────────────────────────── */
+    .btn-primary, .btn-ghost {
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: rgba(255,255,255,0.15);
+      border-radius: inherit;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.35s ease;
+    }
+    .btn-primary:hover::after { transform: scaleX(1); }
+
+    /* ── PROGRESS BAR ────────────────────────────────────── */
+    .scroll-progress {
+      position: fixed; top: 0; left: 0; z-index: 200;
+      height: 3px; width: 0%;
+      background: linear-gradient(90deg, var(--red), var(--saffron));
+      transition: width 0.1s linear;
+      box-shadow: 0 0 8px rgba(230,126,34,0.7);
+    }
+
+    /* ── TOAST NOTIFICATION ──────────────────────────────── */
+    .toast {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 500;
+      background: rgba(26,26,26,0.95);
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(16px);
+      color: var(--white);
+      padding: 1rem 1.4rem;
+      border-radius: 14px;
+      font-size: 0.875rem;
+      display: flex; align-items: center; gap: 0.75rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(.16,1,.3,1), opacity 0.4s ease;
+      max-width: 320px;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast__icon { font-size: 1.3rem; flex-shrink: 0; }
   </style>
 </head>
 <body>
 
+  <!-- Scroll progress bar -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- Custom cursor -->
+  <div class="cursor__dot"  id="cursorDot"></div>
+  <div class="cursor__ring" id="cursorRing"></div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">
+    <span class="toast__icon">🍀</span>
+    <span id="toastMsg">New jobs just added in Dublin!</span>
+  </div>
+
   <!-- ── NAV ── -->
   <header>
-    <nav class="nav">
+    <nav class="nav" id="mainNav">
       <a href="landing.html" class="nav__logo">
         🍴 <span><span class="accent">Chef</span>Jobs Dublin</span>
       </a>
@@ -761,10 +923,7 @@
         <span class="line2">Chef Job Board</span>
       </h1>
 
-      <p class="hero__sub">
-        From Commis Chef to Executive Chef — discover every culinary opportunity
-        in Dublin's thriving restaurant scene. Real listings, no spam.
-      </p>
+      <p class="hero__sub" id="heroTyped"></p>
 
       <div class="hero__actions">
         <a href="index.html" class="btn-primary">
@@ -785,25 +944,25 @@
 
   <!-- ── STATS ── -->
   <div class="stats">
-    <div class="stats__inner">
+    <div class="stats__inner stagger">
       <div class="stat">
-        <div class="stat__number">200+</div>
+        <div class="stat__number" data-count="200" data-suffix="+">0</div>
         <div class="stat__label">Live Job Listings</div>
       </div>
       <div class="stat">
-        <div class="stat__number">3</div>
+        <div class="stat__number" data-count="3">0</div>
         <div class="stat__label">Job Sources</div>
       </div>
       <div class="stat">
-        <div class="stat__number">8</div>
+        <div class="stat__number" data-count="8">0</div>
         <div class="stat__label">Chef Specialisations</div>
       </div>
       <div class="stat">
-        <div class="stat__number">€38k</div>
+        <div class="stat__number" data-count="38" data-prefix="€" data-suffix="k">0</div>
         <div class="stat__label">Avg. Head Chef Salary</div>
       </div>
       <div class="stat">
-        <div class="stat__number">100%</div>
+        <div class="stat__number" data-count="100" data-suffix="%">0</div>
         <div class="stat__label">Free to Use</div>
       </div>
     </div>
@@ -812,24 +971,24 @@
   <!-- ── HOW IT WORKS ── -->
   <section class="how">
     <div class="container">
-      <span class="section-eyebrow">How it works</span>
-      <h2 class="section-title">Land your next kitchen role<br>in 3 simple steps</h2>
-      <p class="section-sub">We pull live listings from multiple job boards so you don't have to search everywhere yourself.</p>
+      <span class="section-eyebrow reveal">How it works</span>
+      <h2 class="section-title reveal">Land your next kitchen role<br>in 3 simple steps</h2>
+      <p class="section-sub reveal">We pull live listings from multiple job boards so you don't have to search everywhere yourself.</p>
 
-      <div class="how__grid">
-        <div class="how__card">
+      <div class="how__grid stagger">
+        <div class="how__card tilt">
           <div class="how__step">Step 01</div>
           <span class="how__icon">🔍</span>
           <h3 class="how__card-title">Browse & Filter</h3>
           <p class="how__card-text">Filter by chef level — from Commis to Executive. Search by keyword. New jobs appear automatically every day.</p>
         </div>
-        <div class="how__card">
+        <div class="how__card tilt">
           <div class="how__step">Step 02</div>
           <span class="how__icon">📋</span>
           <h3 class="how__card-title">Read the Info Hub</h3>
           <p class="how__card-text">Learn about Dublin salaries, PPS numbers, cost of living, and visa requirements before you apply.</p>
         </div>
-        <div class="how__card">
+        <div class="how__card tilt">
           <div class="how__step">Step 03</div>
           <span class="how__icon">🚀</span>
           <h3 class="how__card-title">Apply Direct</h3>
@@ -842,11 +1001,11 @@
   <!-- ── CHEF LEVELS ── -->
   <section class="levels">
     <div class="container">
-      <span class="section-eyebrow">Specialisations</span>
-      <h2 class="section-title">Every level of the brigade</h2>
-      <p class="section-sub">Whether you're just starting out or leading a Michelin-star kitchen, we have listings for every chef.</p>
+      <span class="section-eyebrow reveal">Specialisations</span>
+      <h2 class="section-title reveal">Every level of the brigade</h2>
+      <p class="section-sub reveal">Whether you're just starting out or leading a Michelin-star kitchen, we have listings for every chef.</p>
 
-      <div class="levels__grid">
+      <div class="levels__grid stagger">
         <a href="index.html" class="level-card">
           <span class="level-card__icon">👨‍🍳</span>
           <div>
@@ -912,9 +1071,9 @@
     <div class="container">
       <div class="dublin__inner">
         <div>
-          <span class="section-eyebrow">Why Dublin</span>
-          <h2 class="section-title">One of Europe's hottest food cities</h2>
-          <div class="dublin__facts">
+          <span class="section-eyebrow reveal-left">Why Dublin</span>
+          <h2 class="section-title reveal-left">One of Europe's hottest food cities</h2>
+          <div class="dublin__facts stagger">
             <div class="dublin__fact">
               <div class="dublin__fact-icon">🌟</div>
               <div>
@@ -946,7 +1105,7 @@
           </div>
         </div>
 
-        <div class="dublin__visual">
+        <div class="dublin__visual reveal-right">
           <div class="dublin__ring"></div>
           <div class="dublin__ring"></div>
           <div class="dublin__map-bg">
@@ -960,10 +1119,10 @@
   <!-- ── TESTIMONIALS ── -->
   <section class="testimonials">
     <div class="container">
-      <span class="section-eyebrow">Success Stories</span>
-      <h2 class="section-title">Chefs who found their role</h2>
+      <span class="section-eyebrow reveal">Success Stories</span>
+      <h2 class="section-title reveal">Chefs who found their role</h2>
 
-      <div class="testimonials__grid">
+      <div class="testimonials__grid stagger">
         <div class="testi-card">
           <div class="testi-stars">★★★★★</div>
           <div class="testi-card__quote">"</div>
@@ -1057,6 +1216,255 @@
       <span>Jobs sourced from Adzuna · Reed · JSearch</span>
     </div>
   </footer>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  Chef Jobs Dublin — Landing Page JS
+//  Features: typed text · custom cursor · scroll reveal ·
+//  counter animation · parallax · 3D tilt · scroll progress ·
+//  magnetic nav · toast notification · smooth stagger
+// ═══════════════════════════════════════════════════════════
+
+(function () {
+  'use strict';
+
+  /* ── 1. TYPED TEXT EFFECT ─────────────────────────────── */
+  const heroTyped = document.getElementById('heroTyped');
+  const phrases = [
+    'From Commis Chef to Executive Chef — discover every culinary opportunity in Dublin.',
+    'Real listings from multiple job boards. Updated daily. Always free.',
+    'Join hundreds of chefs who found their dream role in Dublin.'
+  ];
+  let phraseIndex = 0, charIndex = 0, isDeleting = false;
+  const cursor = document.createElement('span');
+  cursor.className = 'typed-cursor';
+  heroTyped.appendChild(cursor);
+
+  function typeLoop() {
+    const current = phrases[phraseIndex];
+    const displayed = isDeleting
+      ? current.slice(0, charIndex--)
+      : current.slice(0, charIndex++);
+
+    heroTyped.childNodes[0]
+      ? heroTyped.childNodes[0].nodeValue !== undefined
+        ? (heroTyped.firstChild.nodeValue = displayed)
+        : heroTyped.insertBefore(document.createTextNode(displayed), cursor)
+      : heroTyped.insertBefore(document.createTextNode(displayed), cursor);
+
+    // fix: ensure text node stays before cursor
+    if (heroTyped.firstChild !== cursor) {
+      heroTyped.firstChild.nodeValue = displayed;
+    } else {
+      const txt = document.createTextNode(displayed);
+      heroTyped.insertBefore(txt, cursor);
+    }
+
+    let delay = isDeleting ? 35 : 55;
+    if (!isDeleting && charIndex > current.length) {
+      delay = 2200; isDeleting = true;
+    } else if (isDeleting && charIndex < 0) {
+      isDeleting = false; charIndex = 0;
+      phraseIndex = (phraseIndex + 1) % phrases.length;
+      delay = 400;
+    }
+    setTimeout(typeLoop, delay);
+  }
+  setTimeout(typeLoop, 1400);
+
+
+  /* ── 2. CUSTOM CURSOR ─────────────────────────────────── */
+  const dot  = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  let mx = -100, my = -100, rx = -100, ry = -100;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx + 'px';
+    dot.style.top  = my + 'px';
+  });
+
+  // ring lags behind with lerp
+  function lerpCursor() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(lerpCursor);
+  }
+  lerpCursor();
+
+  // enlarge ring on interactive elements
+  const hoverTargets = 'a, button, .how__card, .level-card, .testi-card';
+  document.querySelectorAll(hoverTargets).forEach(el => {
+    el.addEventListener('mouseenter', () => ring.classList.add('hovering'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('hovering'));
+  });
+
+
+  /* ── 3. SCROLL PROGRESS BAR ───────────────────────────── */
+  const progressBar = document.getElementById('scrollProgress');
+  window.addEventListener('scroll', () => {
+    const total  = document.documentElement.scrollHeight - window.innerHeight;
+    const pct    = (window.scrollY / total) * 100;
+    progressBar.style.width = pct + '%';
+  }, { passive: true });
+
+
+  /* ── 4. NAV SCROLL STATE ──────────────────────────────── */
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+
+  /* ── 5. SCROLL REVEAL (Intersection Observer) ─────────── */
+  const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .stagger');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  revealEls.forEach(el => revealObserver.observe(el));
+
+
+  /* ── 6. COUNTER ANIMATION ─────────────────────────────── */
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.count, 10);
+    const prefix = el.dataset.prefix || '';
+    const suffix = el.dataset.suffix || '';
+    const duration = 1800;
+    const start = performance.now();
+
+    function tick(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      // ease out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const value = Math.round(eased * target);
+      el.textContent = prefix + value + suffix;
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  const counterEls = document.querySelectorAll('[data-count]');
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCounter(entry.target);
+        counterObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  counterEls.forEach(el => counterObserver.observe(el));
+
+
+  /* ── 7. HERO PARALLAX (orbs follow mouse) ─────────────── */
+  const orbs = document.querySelectorAll('.hero__orb');
+  const hero = document.querySelector('.hero');
+  hero.addEventListener('mousemove', e => {
+    const rect = hero.getBoundingClientRect();
+    const cx = (e.clientX - rect.left) / rect.width  - 0.5;
+    const cy = (e.clientY - rect.top)  / rect.height - 0.5;
+    orbs.forEach((orb, i) => {
+      const depth = (i + 1) * 22;
+      orb.style.transform = `translate(${cx * depth}px, ${cy * depth}px) scale(1)`;
+    });
+  });
+  hero.addEventListener('mouseleave', () => {
+    orbs.forEach(orb => { orb.style.transform = ''; });
+  });
+
+
+  /* ── 8. 3D CARD TILT ──────────────────────────────────── */
+  document.querySelectorAll('.tilt').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const cx = (e.clientX - rect.left) / rect.width  - 0.5;
+      const cy = (e.clientY - rect.top)  / rect.height - 0.5;
+      card.style.transform = `perspective(600px) rotateY(${cx * 14}deg) rotateX(${-cy * 14}deg) scale(1.03)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(600px) rotateY(0deg) rotateX(0deg) scale(1)';
+    });
+  });
+
+
+  /* ── 9. LEVEL CARDS — stagger on hover neighbour ─────── */
+  const levelCards = document.querySelectorAll('.level-card');
+  levelCards.forEach((card, i) => {
+    card.addEventListener('mouseenter', () => {
+      levelCards.forEach((c, j) => {
+        const dist = Math.abs(i - j);
+        c.style.transform = dist === 0
+          ? 'translateY(-8px) scale(1.03)'
+          : dist === 1
+            ? 'translateY(-3px) scale(1.01)'
+            : '';
+        c.style.transition = 'transform 0.3s ease, border-color 0.3s, background 0.3s';
+      });
+    });
+    card.addEventListener('mouseleave', () => {
+      levelCards.forEach(c => { c.style.transform = ''; });
+    });
+  });
+
+
+  /* ── 10. TOAST NOTIFICATION ───────────────────────────── */
+  const toast   = document.getElementById('toast');
+  const toastMessages = [
+    '🍀 New jobs just added in Dublin!',
+    '🔪 3 Head Chef roles posted today',
+    '⭐ Michelin restaurant hiring now',
+    '🍽️ Sous Chef positions available',
+  ];
+  let toastIdx = 0;
+
+  function showToast() {
+    const msg = toastMessages[toastIdx % toastMessages.length];
+    document.getElementById('toastMsg').textContent = msg.slice(2);
+    toast.querySelector('.toast__icon').textContent = msg[0];
+    toast.classList.add('show');
+    setTimeout(() => {
+      toast.classList.remove('show');
+      toastIdx++;
+    }, 3800);
+  }
+
+  // show first toast after 3s, then every 12s
+  setTimeout(() => {
+    showToast();
+    setInterval(showToast, 12000);
+  }, 3000);
+
+
+  /* ── 11. SMOOTH SECTION ENTRANCE on first load ─────────  */
+  // hero elements already use CSS animation (fadeDown)
+  // trigger stats stagger immediately after hero
+  setTimeout(() => {
+    const statsGrid = document.querySelector('.stats__inner');
+    if (statsGrid) statsGrid.classList.add('visible');
+  }, 600);
+
+
+  /* ── 12. FOOTER LINKS — subtle underline sweep ─────────  */
+  document.querySelectorAll('.footer__nav a').forEach(link => {
+    link.style.backgroundImage = 'linear-gradient(var(--saffron), var(--saffron))';
+    link.style.backgroundRepeat = 'no-repeat';
+    link.style.backgroundSize = '0% 1px';
+    link.style.backgroundPosition = '0 100%';
+    link.style.transition = 'background-size 0.3s ease, color 0.2s';
+    link.addEventListener('mouseenter', () => link.style.backgroundSize = '100% 1px');
+    link.addEventListener('mouseleave', () => link.style.backgroundSize = '0% 1px');
+  });
+
+})();
+</script>
 
 </body>
 </html>
