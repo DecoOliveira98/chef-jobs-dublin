@@ -1,0 +1,11 @@
+{
+  "name": "chef-jobs-dublin",
+  "version": "1.0.0",
+  "description": "Niche chef jobs aggregator for Dublin, Ireland",
+  "engines": {
+    "node": "20.x"
+  },
+  "dependencies": {
+    "node-fetch": "^2.7.0"
+  }
+}
