@@ -1,12 +1,12 @@
 // ============================================================
 // api/jobs.js — Vercel Serverless Function
-// Aggregates chef jobs from Adzuna + Indeed + JSearch.
+// Aggregates chef jobs from Adzuna + Reed.co.uk + JSearch.
 // All API keys read from Vercel environment variables.
 // Frontend calls: GET /api/jobs?query=chef
 // ============================================================
 
 const ADZUNA_BASE  = 'https://api.adzuna.com/v1/api/jobs/gb/search';
-const INDEED_BASE  = 'https://indeed12.p.rapidapi.com/jobs/search';
+const REED_BASE    = 'https://www.reed.co.uk/api/1.0/search';
 const JSEARCH_BASE = 'https://jsearch.p.rapidapi.com/search';
 const RESULTS_PER_PAGE = 20;
 
@@ -34,16 +34,16 @@ function normaliseAdzuna(raw) {
   };
 }
 
-function normaliseIndeed(raw) {
+function normaliseReed(raw) {
   return {
-    id:          `indeed-${raw.id || Math.random()}`,
-    title:       raw.title        || 'Chef',
-    company:     raw.company_name || 'Company not listed',
-    salaryLabel: raw.salary       || null,
-    location:    raw.location     || 'Dublin, Ireland',
-    applyUrl:    raw.url          || '#',
-    postedAt:    raw.date         || null,
-    source:      'indeed',
+    id:          `reed-${raw.jobId}`,
+    title:       raw.jobTitle      || 'Chef',
+    company:     raw.employerName  || 'Company not listed',
+    salaryLabel: buildSalaryLabel(raw.minimumSalary, raw.maximumSalary, false),
+    location:    raw.locationName  || 'Dublin, Ireland',
+    applyUrl:    raw.jobUrl        || '#',
+    postedAt:    raw.date          || null,
+    source:      'reed',
   };
 }
 
@@ -88,23 +88,30 @@ async function fetchAdzuna(query) {
   return (data.results || []).map(normaliseAdzuna);
 }
 
-async function fetchIndeed(query) {
-  const { RAPIDAPI_KEY } = process.env;
-  if (!RAPIDAPI_KEY) return [];
+async function fetchReed(query) {
+  const { REED_API_KEY } = process.env;
+  if (!REED_API_KEY) return [];
 
   const params = new URLSearchParams({
-    query: `${query} Dublin`, location: 'Dublin, Ireland', locality: 'ie', start: '0',
+    keywords:        `${query}`,
+    locationName:    'Dublin',
+    distancefromlocation: '10',
+    resultsToTake:   RESULTS_PER_PAGE,
+    resultsToSkip:   0,
   });
-  const res = await fetch(`${INDEED_BASE}?${params}`, {
-    headers: { 'X-RapidAPI-Key': RAPIDAPI_KEY, 'X-RapidAPI-Host': 'indeed12.p.rapidapi.com' },
+
+  // Reed uses HTTP Basic Auth: API key as username, empty password
+  const credentials = Buffer.from(`${REED_API_KEY}:`).toString('base64');
+
+  const res = await fetch(`${REED_BASE}?${params}`, {
+    headers: {
+      'Authorization': `Basic ${credentials}`,
+      'Content-Type':  'application/json',
+    },
   });
-  if (res.status === 403 || res.status === 401) {
-    console.warn('Indeed: not subscribed on RapidAPI');
-    return [];
-  }
-  if (!res.ok) throw new Error(`Indeed ${res.status}`);
+  if (!res.ok) throw new Error(`Reed ${res.status}`);
   const data = await res.json();
-  return (data.hits || []).map(normaliseIndeed);
+  return (data.results || []).map(normaliseReed);
 }
 
 async function fetchJSearch(query) {
@@ -130,11 +137,11 @@ module.exports = async function handler(req, res) {
 
   const results = await Promise.allSettled([
     fetchAdzuna(query),
-    fetchIndeed(query),
+    fetchReed(query),
     fetchJSearch(query),
   ]);
 
-  const sources = ['adzuna', 'indeed', 'jsearch'];
+  const sources = ['adzuna', 'reed', 'jsearch'];
   const allJobs = [];
   results.forEach((r, i) => {
     if (r.status === 'fulfilled') allJobs.push(...r.value);
