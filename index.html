@@ -148,6 +148,77 @@
   </main>
 
   <!-- ===================================================
+       MORE JOBS — JOOBLE + CAREERJET WIDGETS
+       =================================================== -->
+  <section class="widget-section" aria-label="More job listings">
+    <div class="container">
+
+      <!-- Section header -->
+      <div class="widget-section__header">
+        <div class="widget-section__title-wrap">
+          <span class="widget-section__eyebrow">🔌 More Listings</span>
+          <h2 class="widget-section__title">Even More Chef Jobs in Dublin</h2>
+          <p class="widget-section__sub">Extended search powered by partner job boards — updated in real time.</p>
+        </div>
+        <!-- Tab switcher -->
+        <div class="widget-tabs" role="tablist" aria-label="Job widget source">
+          <button class="widget-tab widget-tab--active" data-tab="jooble"    role="tab" aria-selected="true">
+            <span class="widget-tab__dot"></span> Jooble
+          </button>
+          <button class="widget-tab" data-tab="careerjet" role="tab" aria-selected="false">
+            <span class="widget-tab__dot"></span> CareerJet
+          </button>
+        </div>
+      </div>
+
+      <!-- Jooble iframe widget -->
+      <div class="widget-panel" id="tab-jooble" role="tabpanel">
+        <div class="widget-frame-wrap">
+          <iframe
+            id="joobleFrame"
+            src="https://jooble.org/job-widget/0?keywords=chef&location=Dublin%2C+Ireland&lang=en"
+            width="100%"
+            height="560"
+            frameborder="0"
+            scrolling="yes"
+            title="Chef jobs in Dublin via Jooble"
+            loading="lazy"
+          ></iframe>
+          <div class="widget-overlay-hint">
+            <span>🔗 Powered by <a href="https://jooble.org" target="_blank" rel="noopener noreferrer">Jooble</a></span>
+            <a href="https://jooble.org/jobs-chef/Dublin%2C-Ireland" target="_blank" rel="noopener noreferrer" class="widget-view-all">
+              View all on Jooble →
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- CareerJet widget -->
+      <div class="widget-panel hidden" id="tab-careerjet" role="tabpanel">
+        <div class="widget-frame-wrap">
+          <iframe
+            id="careerjetFrame"
+            src="https://www.careerjet.ie/jobs.html?s=chef&l=Dublin&nw=1"
+            width="100%"
+            height="560"
+            frameborder="0"
+            scrolling="yes"
+            title="Chef jobs in Dublin via CareerJet"
+            loading="lazy"
+          ></iframe>
+          <div class="widget-overlay-hint">
+            <span>🔗 Powered by <a href="https://www.careerjet.ie" target="_blank" rel="noopener noreferrer">CareerJet Ireland</a></span>
+            <a href="https://www.careerjet.ie/jobs.html?s=chef&l=Dublin" target="_blank" rel="noopener noreferrer" class="widget-view-all">
+              View all on CareerJet →
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================================================
        FOOTER
        =================================================== -->
   <footer class="site-footer" aria-label="Site footer">
@@ -155,9 +226,10 @@
       <p class="footer__credits">
         <span data-i18n="footer_sourced">Jobs sourced from</span>
         <a href="https://www.adzuna.ie" target="_blank" rel="noopener noreferrer">Adzuna</a>,
-        <a href="https://rapidapi.com/jaypat87/api/indeed12" target="_blank" rel="noopener noreferrer">Indeed</a>
+        <a href="https://www.reed.co.uk" target="_blank" rel="noopener noreferrer">Reed</a>,
+        <a href="https://jooble.org" target="_blank" rel="noopener noreferrer">Jooble</a>
         <span data-i18n="footer_and">&amp;</span>
-        <a href="https://rapidapi.com/letscrape-6bRBa3QguO5/api/jsearch" target="_blank" rel="noopener noreferrer">JSearch</a>
+        <a href="https://www.careerjet.ie" target="_blank" rel="noopener noreferrer">CareerJet</a>
       </p>
       <p class="footer__built">
         Chef Jobs Dublin &mdash; Portfolio Project &mdash; Dublin, Ireland
@@ -170,6 +242,49 @@
   <script src="js/i18n.js"></script>
   <script src="js/api.js"></script>
   <script src="js/app.js"></script>
+
+  <!-- Widget tab switcher -->
+  <script>
+    (function () {
+      const tabs   = document.querySelectorAll('.widget-tab');
+      const panels = document.querySelectorAll('.widget-panel');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const target = tab.dataset.tab;
+
+          // Update tab states
+          tabs.forEach(t => {
+            t.classList.toggle('widget-tab--active', t === tab);
+            t.setAttribute('aria-selected', t === tab ? 'true' : 'false');
+          });
+
+          // Show / hide panels with animation
+          panels.forEach(panel => {
+            const isTarget = panel.id === 'tab-' + target;
+            if (isTarget) {
+              panel.classList.remove('hidden');
+              // re-trigger animation
+              panel.style.animation = 'none';
+              panel.offsetHeight; // reflow
+              panel.style.animation = '';
+            } else {
+              panel.classList.add('hidden');
+            }
+          });
+
+          // Lazy-load iframe src on first switch
+          if (target === 'careerjet') {
+            const cf = document.getElementById('careerjetFrame');
+            if (!cf.dataset.loaded) {
+              cf.src = cf.src; // trigger load
+              cf.dataset.loaded = 'true';
+            }
+          }
+        });
+      });
+    })();
+  </script>
 
 </body>
 </html>
