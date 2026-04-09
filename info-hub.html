@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Chef Jobs Dublin Info Hub — industry news, salary guide, PPS number guide, cost of living, visa info and career tips for chefs in Dublin, Ireland." />
+  <meta name="theme-color" content="#3A5A2A" />
+  <title>Info Hub — Chef Jobs Dublin</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ===================================================
+       NAVIGATION
+       =================================================== -->
+  <header class="site-header">
+    <nav class="nav container" aria-label="Main navigation">
+      <a href="index.html" class="nav__logo" aria-label="Chef Jobs Dublin — home">
+        <span class="nav__logo-icon" aria-hidden="true">🍴</span>
+        <span><span class="nav__logo-accent">Chef</span>Jobs Dublin</span>
+      </a>
+
+      <div class="nav__links">
+        <a href="index.html"    class="nav__link" data-i18n="nav_jobs">Jobs</a>
+        <a href="info-hub.html" class="nav__link nav__link--active" data-i18n="nav_infohub">Info Hub</a>
+      </div>
+
+      <p class="nav__tagline" data-i18n="nav_tagline">Dublin's #1 Chef Job Board</p>
+
+      <div class="lang-switcher" role="group" aria-label="Select language">
+        <button class="lang-btn" data-lang="en"    title="English">🇬🇧 EN</button>
+        <button class="lang-btn" data-lang="pt-BR" title="Português (Brasil)">🇧🇷 PT</button>
+        <button class="lang-btn" data-lang="es"    title="Español">🇪🇸 ES</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ===================================================
+       HERO
+       =================================================== -->
+  <section class="ih-hero" aria-labelledby="ihHeroTitle">
+    <div class="ih-hero__inner container">
+      <h1 class="ih-hero__title" id="ihHeroTitle" data-i18n="ih_hero_title">
+        Your Dublin Chef Career Hub
+      </h1>
+      <p class="ih-hero__sub" data-i18n="ih_hero_sub">
+        Industry news, career tips and essential resources — everything a chef needs to thrive in Dublin.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===================================================
+       INDUSTRY NEWS
+       =================================================== -->
+  <section class="ih-section" aria-labelledby="newsTitle">
+    <div class="container">
+      <div class="ih-section__head">
+        <h2 class="ih-section__title" id="newsTitle" data-i18n="ih_news_title">Industry News</h2>
+        <p class="ih-section__sub" data-i18n="ih_news_sub">Latest from the Irish hospitality &amp; culinary scene</p>
+      </div>
+      <div class="ih-grid" id="newsGrid" aria-live="polite" aria-busy="true">
+        <!-- Populated by infohub.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================
+       CHEF TIPS & STORIES (Dev.to)
+       =================================================== -->
+  <section class="ih-section" aria-labelledby="articlesTitle">
+    <div class="container">
+      <div class="ih-section__head-row">
+        <div>
+          <h2 class="ih-section__title" id="articlesTitle" data-i18n="ih_articles_title">Chef Tips &amp; Stories</h2>
+          <p class="ih-section__sub" data-i18n="ih_articles_sub">Posts written by the team — career advice, Dublin life, kitchen culture</p>
+        </div>
+        <a
+          id="writeCta"
+          href="https://dev.to/new"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn--primary"
+          data-i18n="ih_articles_cta"
+          style="display:none"
+        >Write on Dev.to →</a>
+      </div>
+      <div class="ih-grid" id="articlesGrid" aria-live="polite" aria-busy="true">
+        <!-- Populated by infohub.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================
+       RESOURCES
+       =================================================== -->
+  <section class="ih-section" aria-labelledby="resourcesTitle">
+    <div class="container">
+      <div class="ih-section__head">
+        <h2 class="ih-section__title" id="resourcesTitle" data-i18n="ih_resources_title">Dublin Resources</h2>
+        <p class="ih-section__sub" data-i18n="ih_resources_sub">Practical info for chefs living and working in Dublin</p>
+      </div>
+
+      <div class="resources-grid">
+
+        <!-- Salary Guide -->
+        <div class="resource-card">
+          <h3 class="resource-card__title" data-i18n="ih_salary_title">Salary Guide</h3>
+          <p class="resource-card__sub" data-i18n="ih_salary_sub">Average annual salaries for chef roles in Dublin (2025)</p>
+          <div id="salaryGuide"><!-- Populated by infohub.js --></div>
+          <p class="resource-card__note" data-i18n="ih_salary_note">Figures are estimates based on market data.</p>
+        </div>
+
+        <!-- Cost of Living -->
+        <div class="resource-card">
+          <h3 class="resource-card__title" data-i18n="ih_col_title">Cost of Living</h3>
+          <p class="resource-card__sub" data-i18n="ih_col_sub">Monthly estimates for a single person in Dublin</p>
+          <div id="colTable"><!-- Populated by infohub.js --></div>
+          <p class="resource-card__note" data-i18n="ih_col_note">Dublin is one of the most expensive cities in the EU.</p>
+        </div>
+
+        <!-- PPS Number -->
+        <div class="resource-card">
+          <h3 class="resource-card__title" data-i18n="ih_pps_title">PPS Number Guide</h3>
+          <p class="resource-card__sub" data-i18n="ih_pps_sub">You need a PPSN to work legally in Ireland</p>
+          <ol class="pps-steps">
+            <li data-i18n="ih_pps_s1">Book an appointment at your local Intreo Centre or DSP office</li>
+            <li data-i18n="ih_pps_s2">Bring your passport (or national ID for EU citizens)</li>
+            <li data-i18n="ih_pps_s3">Bring proof of address (utility bill, bank letter, lease)</li>
+            <li data-i18n="ih_pps_s4">Bring proof of why you need a PPSN (employment offer letter)</li>
+            <li data-i18n="ih_pps_s5">Processing takes 1–5 working days</li>
+          </ol>
+          <a
+            href="https://www.gov.ie/en/service/find-your-local-intreo-office/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="resource-card__link"
+            data-i18n="ih_pps_link"
+          >Find your nearest Intreo Centre →</a>
+        </div>
+
+        <!-- Visa / Work in Ireland -->
+        <div class="resource-card">
+          <h3 class="resource-card__title" data-i18n="ih_visa_title">Working in Ireland</h3>
+          <div class="visa-cards">
+            <div class="visa-card">
+              <p class="visa-card__title">🇪🇺 <span data-i18n="ih_visa_eu">EU / EEA Citizens</span></p>
+              <p class="visa-card__text" data-i18n="ih_visa_eu_text">No visa or permit needed. You have the right to live and work freely in Ireland.</p>
+            </div>
+            <div class="visa-card">
+              <p class="visa-card__title">🌍 <span data-i18n="ih_visa_noneu">Non-EU Citizens</span></p>
+              <p class="visa-card__text" data-i18n="ih_visa_noneu_text">A work permit is required. The most common for skilled chefs is the Critical Skills Employment Permit (salary ≥ €32,000/yr).</p>
+            </div>
+            <div class="visa-card">
+              <p class="visa-card__title">🇧🇷 <span data-i18n="ih_visa_br">Brazilian Citizens</span></p>
+              <p class="visa-card__text" data-i18n="ih_visa_br_text">Ireland and Brazil have a Working Holiday Agreement. Brazilians aged 18–35 can apply for a 1-year working holiday visa.</p>
+            </div>
+          </div>
+          <a
+            href="https://www.irishimmigration.ie/coming-to-work-in-ireland/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="resource-card__link"
+            data-i18n="ih_visa_link"
+          >Check visa requirements on DEASP →</a>
+        </div>
+
+      </div><!-- /resources-grid -->
+    </div>
+  </section>
+
+  <!-- ===================================================
+       FOOTER
+       =================================================== -->
+  <footer class="site-footer" aria-label="Site footer">
+    <div class="footer__inner container">
+      <p class="footer__credits">
+        <span data-i18n="footer_sourced">Jobs sourced from</span>
+        <a href="https://www.adzuna.ie" target="_blank" rel="noopener noreferrer">Adzuna</a>,
+        <a href="https://rapidapi.com/jaypat87/api/indeed12" target="_blank" rel="noopener noreferrer">Indeed</a>
+        <span data-i18n="footer_and">&amp;</span>
+        <a href="https://rapidapi.com/letscrape-6bRBa3QguO5/api/jsearch" target="_blank" rel="noopener noreferrer">JSearch</a>
+      </p>
+      <p class="footer__built">Chef Jobs Dublin &mdash; Portfolio Project &mdash; Dublin, Ireland</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/infohub.js"></script>
+
+</body>
+</html>
